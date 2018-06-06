@@ -1,8 +1,11 @@
 import React from 'react'
 import {
   Link,
-  Route
+  Route,
+  Redirect
 } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { logout } from './Auth.redux'
 import App from './App'
 
 function Erying() {
@@ -13,10 +16,10 @@ function Qibinglian() {
   return <h2>骑兵连</h2>
 }
 
-function Error() {
-  return <h2>404</h2>
-}
-
+@connect(
+  state => state.auth,
+  { logout }
+)
 class Dashboard extends React.Component{
   constructor(props) {
     super(props)
@@ -24,20 +27,28 @@ class Dashboard extends React.Component{
   }
 
   render() {
-    return (
+    const { match } = this.props
+    const redirectToLogin = <Redirect to="/login" />
+    const app =(
       <div>
         <ul>
           <li>
-            <Link to="/dashboard">一营</Link>
+            <Link to={`${match.url}`}>一营</Link>
           </li>
           <li>
-            <Link to="/dashboard/erying">二营</Link>
+            <Link to={`${match.url}/erying`}>二营</Link>
           </li>
           <li>
-            <Link to="/dashboard/qibinglian">骑兵连</Link>
+            <Link to={`${match.url}/qibinglian`}>骑兵连</Link>
           </li>
         </ul>
+        <Route path={`${match.url}`} exact component={App} />
+        <Route path={`${match.url}/erying`} component={Erying} />
+        <Route path={`${match.url}/qibinglian`} component={Qibinglian} />
       </div>
+    )
+    return (
+      this.props.isAuth ? app : redirectToLogin
     )
   }
 }

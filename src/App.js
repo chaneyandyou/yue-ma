@@ -5,7 +5,7 @@ import { addGun, removeGun, addGunAsync } from './index.redux'
 
 @connect(
   state => ({
-    num: state
+    num: state.counter
   }),
   { addGun, removeGun, addGunAsync }
 )

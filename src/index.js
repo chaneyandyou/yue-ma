@@ -8,24 +8,21 @@ import {
 import {
   BrowserRouter,
   Route,
-  Link,
   Switch,
   Redirect
 } from 'react-router-dom'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
-import counter from './index.redux'
 import Auth from './Auth'
 import Dashboard from './Dashboard'
+import reducers from './reducers'
 
 const reduxDevtools = window.devToolsExtension ? window.devToolsExtension() : f => f
 
-const store = createStore(counter, compose(
+const store = createStore(reducers, compose(
   applyMiddleware(thunk),
   reduxDevtools
 ))
-
-
 
 ReactDOM.render(
   <Provider store={store}>
