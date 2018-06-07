@@ -12,11 +12,20 @@ service.interceptors.request.use(function(config) {
 })
 
 // 拦截响应
-service.interceptors.response.use(function(config) {
-  setTimeout(() => {
+service.interceptors.response.use(
+  response => {
     Toast.hide()
-  }, 1000)
-  return config
-})
+    if(response.status !== 200) {
+      Toast.offline('网络出错了', 1);
+    } else {
+      return response.data
+    }
+  },
+  error => {
+    Toast.hide()
+    Toast.fail('出错了', 1);
+    return Promise.reject(error)
+  }
+)
 
 export default service
