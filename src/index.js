@@ -24,17 +24,12 @@ const store = createStore(reducers, compose(
   reduxDevtools
 ))
 
-function Boss() {
-  return <h2>boss</h2>
-}
-
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <div>
         <AuthRoute />
         <Switch>
-          <Route path="/boss" component={Boss}/>
           {
             Routes.map(({ name, path, exact = true, component }) => (
               <Route path={path} key={name} exact={exact} component={component} />
