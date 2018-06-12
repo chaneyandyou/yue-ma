@@ -1,5 +1,8 @@
 import React from 'react'
 import {
+  Redirect
+} from 'react-router-dom'
+import {
   List,
   InputItem,
   WingBlank,
@@ -23,7 +26,7 @@ export default class Register extends React.Component{
     this.state = {
       user: '',
       realName: '',
-      pwd: '',
+      password: '',
       repeatpwd: '',
       type: 'car'
     }
@@ -39,7 +42,7 @@ export default class Register extends React.Component{
     this.props.history.push('/login')
   }
 
-  handleChange(key, value) {
+  _handleChange(key, value) {
     this.setState({
       [key]: value
     })
@@ -50,31 +53,32 @@ export default class Register extends React.Component{
     const RadioItem = Radio.RadioItem
     return(
       <div className="register-container">
+        { this.props.user.redirectTo ? <Redirect to={this.props.user.redirectTo} /> : null }
         <h2>注册页面</h2>
         <WingBlank>
           <List renderHeader={() => '基本信息'}>
             <InputItem
-              onChange={v => this.handleChange('user', v)}
+              onChange={v => this._handleChange('user', v)}
             >
               用户名：
             </InputItem>
             <WhiteSpace />
             <InputItem
-              onChange={v => this.handleChange('realName', v)}
+              onChange={v => this._handleChange('realName', v)}
             >
               真实姓名：
             </InputItem>
             <WhiteSpace />
             <InputItem
               type="password"
-              onChange={v => this.handleChange('pwd', v)}
+              onChange={v => this._handleChange('password', v)}
             >
               密码：
             </InputItem>
             <WhiteSpace />
             <InputItem
               type="password"
-              onChange={v => this.handleChange('repeatpwd', v)}
+              onChange={v => this._handleChange('repeatpwd', v)}
             >
               确认密码：
             </InputItem>
@@ -82,13 +86,13 @@ export default class Register extends React.Component{
           <List renderHeader={() => '角色'}>
             <RadioItem
               checked={type === 'car'}
-              onChange={() => this.handleChange('type', 'car')}
+              onChange={() => this._handleChange('type', 'car')}
             >
               车主
             </RadioItem>
             <RadioItem
               checked={type === 'guest'}
-              onChange={() => this.handleChange('type', 'guest')}
+              onChange={() => this._handleChange('type', 'guest')}
             >
               顺客
             </RadioItem>

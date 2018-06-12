@@ -43,8 +43,6 @@ const userSchema = new Schema({
     type: String
   },
   email: {
-    unique: true,
-    required: true,
     type: String
   },
   password: {
@@ -54,7 +52,6 @@ const userSchema = new Schema({
   },
   loginAttempts: {
     type: Number,
-    required: true,
     default: 0
   },
   lockUntil: Number,

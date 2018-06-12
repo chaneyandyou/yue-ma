@@ -23,7 +23,7 @@ service.interceptors.response.use(
   },
   error => {
     Toast.hide()
-    Toast.fail('出错了', 1);
+    Toast.fail('服务出错了', 1);
     return Promise.reject(error)
   }
 )

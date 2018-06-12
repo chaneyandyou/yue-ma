@@ -1,15 +1,15 @@
 const mongoose = require('mongoose')
-const DB_URL = 'mongodb://127.0.0.1:27017/yuema'
+const DB_URL = 'mongodb://127.0.0.1:27017/shundi'
 const glob = require('glob')
 const { resolve } = require('path')
 
+mongoose.Promise = global.Promise
 
-module.exports = function initSchema() {
+exports.initSchemas = () => {
   glob.sync(resolve(__dirname, './schema', '**/*.js')).forEach(require)
 }
 
-
-module.exports = function connect() {
+exports.connect = () => {
   mongoose.connect(DB_URL)
   mongoose.connection.on('connected', () => {
     console.log('数据库连接成功')
