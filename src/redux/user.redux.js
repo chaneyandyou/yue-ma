@@ -5,6 +5,7 @@ import { getRedirectPath } from '../utils'
 const REGISTER_SUCCESS = 'REGISTER_SUCCESS'
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 const ERROR_MSG = 'ERROR_MSG'
+const LOAD_DATA = 'LOAD_DATA'
 
 const initState = {
   redirectTo: '',
@@ -12,7 +13,6 @@ const initState = {
   msg: '',
   user: '',
   realName: '',
-  pwd: '',
   type: ''
 }
 
@@ -29,6 +29,10 @@ function lognSuccess(data) {
   return { data, type: LOGIN_SUCCESS }
 }
 
+export function loadData(userinfo) {
+  return { type: LOAD_DATA, data: userinfo }
+}
+
 // reducer
 export function user(state = initState, action) {
   switch(action.type) {
@@ -36,7 +40,9 @@ export function user(state = initState, action) {
       Toast.success('注册成功', 1);
       return { ...state, msg: '', redirectTo: getRedirectPath(action.data), isAuth: true, ...action.data }
     case LOGIN_SUCCESS:
-    return { ...state, msg: '', redirectTo: getRedirectPath(action.data), isAuth: true, ...action.data }
+      return { ...state, msg: '', redirectTo: getRedirectPath(action.data), isAuth: true, ...action.data }
+    case LOAD_DATA:
+      return {...state, ...action.data}
     case ERROR_MSG:
       return { ...state, isAuth: false, msg: action.msg }
     default:

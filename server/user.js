@@ -27,16 +27,30 @@ Router.get('/list', function(req, res) {
 })
 
 Router.post('/register', function(req, res) {
-  const { user, password, type, realName } = req.body
-  User.findOne({ user: user }, async(err, doc) => {
+  // const { user, password, type, realName } = req.body
+  const user_body = req.body.user
+  const password_body = req.body.password
+  const type_body = req.body.type
+  const realName_body = req.body.realName
+
+  User.findOne({ user: user_body }, async (err, doc) => {
     if(doc) { // 该用户已存在
       return res.json({ code: 'error', message: "用户已存在", data: null })
     } else {
-      User.create({ user, password, type, realName }, function(err, doc) {
+        const userModel = await new User({
+        user: user_body,
+        password: password_body,
+        type: type_body,
+        realName: realName_body
+      })
+      await userModel.save((err, doc) => {
         if(err) {
           return res.json({ code: 'error', message: '服务端出错了', data: null })
         }
-        return res.json({ code: 'success', message: '注册成功', data: null })
+
+        const { user, type, realName, _id } = doc
+        res.cookie('userid', _id)
+        return res.json({ code: 'success', message: '注册成功', data: { user, type, realName, _id } })
       })
     }
   })

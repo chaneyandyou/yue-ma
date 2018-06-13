@@ -1,8 +1,14 @@
 import React from 'react'
 import fetch from '../../fetch'
 import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { loadData } from '../../redux/user.redux'
 
 @withRouter
+@connect(
+  null,
+  { loadData }
+)
 export default class AuthRoute extends React.Component{
 
   componentDidMount() {
@@ -21,7 +27,7 @@ export default class AuthRoute extends React.Component{
     })
     .then(res => {
       if(res.code === 'success') { // 已登录
-
+        this.props.loadData(res.data)
       } else { // 未登陆
         this.props.history.push('/login')
       }
